@@ -5,8 +5,8 @@ import json
 import boto3
 import requests
 
-from search import search_items
-from filter import filter_items
+from poe_item_search.search import search_items
+from poe_item_search.filter import filter_items
 
 logger = logging.getLogger("item_search")
 logger.setLevel(logging.DEBUG)
