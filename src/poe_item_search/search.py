@@ -6,11 +6,15 @@ import boto3
 import requests
 
 
-logger = logging.getLogger("item_search")
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
+if os.environ.get("LOG_LEVEL"):
+    logger.setLevel(os.environ["LOG_LEVEL"])
+else:
+    logger.setLevel("INFO")
 
 
 def search_items(item_filter):
+    logger.debug(f"Started function search_items")
     search_fields = {
         "base": ["character_name", "account_name", "id", "typeLine"],
         "mod": ["craftedMods", "explicitMods"],
@@ -28,10 +32,12 @@ def search_items(item_filter):
     stop_time = time.perf_counter()
     duration = f"{stop_time - start_time:0.2f}"
     logger.info(f"Total time in request item for {duration}s")
+    logger.debug(f"Finished function search_items")
     return items
 
 
 def request_items(request_fields):
+    logger.debug(f"Started function request_items")
     client = boto3.client("appsync")
     for api in client.list_graphql_apis()["graphqlApis"]:
         if api["name"] == "poe_ladder_export":
@@ -69,5 +75,6 @@ def request_items(request_fields):
     query_duration = f"{query_stop_time - query_start_time:0.2f}"
     logger.debug(f"Total query time {query_duration}s")
     client.delete_api_key(apiId=api_id, id=api_key)
+    logger.debug(f"Finished function request_items")
     return result
     

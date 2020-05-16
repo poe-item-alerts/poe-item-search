@@ -11,23 +11,18 @@ variable "commit_sha" {
 variable "lambda_config" {
   description = "Configuration of the deployed lambda function"
   type = object({
-    memory_size = number
+    memory_size = number,
     runtime     = string,
     timeout     = number,
+    log_level   = string,
   })
   default = {
     memory_size = 512
     runtime     = "python3.7"
     timeout     = 600
+    log_level   = "INFO"
   }
 }
-
-variable "schedule" {
-  description = "Scheduling expression for the cloudwatch event rule that schedules the lambda function"
-  type        = string
-  default     = "rate(30 minutes)"
-}
-
 
 variable "tags" {
   description = "Common tags shared across all resources, specific tags are in the resources"

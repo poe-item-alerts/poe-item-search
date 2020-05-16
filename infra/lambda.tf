@@ -8,6 +8,12 @@ resource "aws_lambda_function" "poe_item_search" {
   timeout       = var.lambda_config["timeout"]
   memory_size   = var.lambda_config["memory_size"]
   tags          = var.tags
+  
+  environment {
+    variables = {
+      LOG_LEVEL = var.lambda_config["log_level"]
+    }
+  }
 
   dead_letter_config {
     target_arn = aws_sns_topic.deadletter.arn

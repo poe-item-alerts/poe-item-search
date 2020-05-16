@@ -5,10 +5,11 @@ import json
 from poe_item_search.search import search_items
 from poe_item_search.filter import filter_items
 
-logger = logging.getLogger("item_search")
-logger.setLevel(logging.DEBUG)
-ch = logging.StreamHandler()
-logger.addHandler(ch)
+logger = logging.getLogger(__name__)
+if os.environ.get("LOG_LEVEL"):
+    logger.setLevel(os.environ["LOG_LEVEL"])
+else:
+    logger.setLevel("INFO")
 
 
 def handler(event, context):
