@@ -1,8 +1,11 @@
 import logging
 
 
-logger = logging.getLogger("item_search")
-logger.setLevel(logging.DEBUG)
+logger = logging.getLogger(__name__)
+if os.environ.get("LOG_LEVEL"):
+    logger.setLevel(os.environ["LOG_LEVEL"])
+else:
+    logger.setLevel("INFO")
 
 
 def filter_items(items, filter):
@@ -56,6 +59,7 @@ def filter_items(items, filter):
                     logger.debug(f"Type filter matched!")
                     item_line = f"{item['typeLine']}"
                     filtered_items.append({"account_name": acc, "item": item_line})
+    logger.debug(f"Finished function filter_items")
     return filtered_items
                 
 
