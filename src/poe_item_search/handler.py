@@ -1,6 +1,7 @@
 import logging
 import time
 import json
+import os
 
 from poe_item_search.search import search_items
 from poe_item_search.filter import filter_items
