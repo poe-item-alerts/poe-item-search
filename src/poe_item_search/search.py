@@ -24,13 +24,16 @@ def search_items(item_filter):
         "links": ["links"],
         "unique": ["name", "flavourText"]
     }
-    
+    ssm = boto3.client("ssm")
+    league = ssm.get_parameter(
+        Name="/poe-item-alerts/character-load/ladders"
+    )["Parameter"]["Value"]
     request_fields = search_fields["base"]
     for f_type in item_filter.keys():
         tmp = search_fields[f_type]
         request_fields += tmp
     start_time = time.perf_counter()
-    items = request_items(request_fields)
+    items = request_items(request_fields, league)
     stop_time = time.perf_counter()
     duration = f"{stop_time - start_time:0.2f}"
     logger.info(f"Total time in request item for {duration}s")
@@ -38,7 +41,7 @@ def search_items(item_filter):
     return items
 
 
-def request_items(request_fields):
+def request_items(request_fields, league):
     logger.debug(f"Started function request_items")
     client = boto3.client("appsync")
     for api in client.list_graphql_apis()["graphqlApis"]:
@@ -60,7 +63,8 @@ def request_items(request_fields):
     }
     
     query_start_time = time.perf_counter()
-    query = "query{listItems(limit:1000){items{%s}nextToken}}" % " ".join(request_fields)
+    league_filter = 'filter: {league:{eq: "%s"}}' % league
+    query = "query{listItems(limit:1000, %s){items{%s}nextToken}}" % (league_filter, " ".join(request_fields))
     result = []
     while True:
         items = requests.post(
@@ -70,7 +74,7 @@ def request_items(request_fields):
         ).json()
         next_token = items["data"]["listItems"]["nextToken"]
         result += items["data"]["listItems"]["items"]
-        query = 'query{listItems(limit:1000,nextToken: "%s"){items{%s}nextToken}}' % (next_token, " ".join(request_fields))
+        query = 'query{listItems(limit:1000,nextToken: "%s", %s){items{%s}nextToken}}' % (next_token, league_filter," ".join(request_fields))
         if not next_token:
             break
     query_stop_time = time.perf_counter()

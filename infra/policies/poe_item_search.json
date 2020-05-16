@@ -9,8 +9,8 @@
         "sns:Publish",
         "appsync:ListGraphqlApis",
         "appsync:CreateApiKey",
-        "appsync:DeleteApiKey"
-       
+        "appsync:DeleteApiKey",
+        "ssm:GetParameter"
       ],
       "Resource": "*"
     }
