@@ -42,24 +42,59 @@ def filter_items(items, filter):
                     logger.debug(f"Link and mod filters matched!")
                     mods_string = ", ".join(mods)
                     item_line = f"{item['typeLine']}({links}L)[{mods_string}]"
-                    filtered_items.append({"account_name": acc, "item": item_line})
+                    filtered_items.append(
+                        {
+                            "account_name": acc,
+                            "item": item_line,
+                            "created": item["created"],
+                            "inventory_id": item["inventoryId"]
+                        }
+                    )
                 elif mods:
                     logger.debug(f"Mod filter matched!")
                     mods_string = ", ".join(mods)
                     item_line = f"{item['typeLine']}[{mods_string}]"
-                    filtered_items.append({"account_name": acc, "item": item_line})
+                    filtered_items.append(
+                        {
+                            "account_name": acc,
+                            "item": item_line,
+                            "created": item["created"],
+                            "inventory_id": item["inventoryId"]
+                        }
+                    )
                 elif links:
                     logger.debug(f"Link filter matched!")
                     item_line = f"{item['typeLine']}({links}L)"
-                    filtered_items.append({"account_name": acc, "item": item_line})
+                    filtered_items.append(
+                        {
+                            "account_name": acc,
+                            "item": item_line,
+                            "created": item["created"],
+                            "inventory_id": item["inventoryId"]
+                        }
+                    )
                 elif unique:
                     logger.debug(f"Unique filter matched!")
                     item_line = f"{unique}"
-                    filtered_items.append({"account_name": acc, "item": item_line})
+                    filtered_items.append(
+                        {
+                            "account_name": acc,
+                            "item": item_line,
+                            "created": item["created"],
+                            "inventory_id": item["inventoryId"]
+                        }
+                    )
                 else:
                     logger.debug(f"Type filter matched!")
                     item_line = f"{item['typeLine']}"
-                    filtered_items.append({"account_name": acc, "item": item_line})
+                    filtered_items.append(
+                        {
+                            "account_name": acc,
+                            "item": item_line,
+                            "created": item["created"],
+                            "inventory_id": item["inventoryId"]
+                        }
+                    )
     logger.debug(f"Finished function filter_items")
     return filtered_items
                 

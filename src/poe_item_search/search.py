@@ -18,9 +18,16 @@ else:
 def search_items(item_filter):
     logger.debug(f"Started function search_items")
     search_fields = {
-        "base": ["character_name", "account_name", "id", "typeLine"],
+        "base": [
+            "character_name",
+            "account_name",
+            "id",
+            "typeLine",
+            "inventoryId",
+            "created"
+        ],
         "mod": ["craftedMods", "explicitMods"],
-        "type": ["inventoryId"],
+        "type": ["typeLine", "inventoryId"],
         "links": ["links"],
         "unique": ["name", "flavourText"]
     }
