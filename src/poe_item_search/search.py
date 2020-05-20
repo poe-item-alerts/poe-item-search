@@ -70,8 +70,8 @@ def request_items(request_fields, league):
     }
     
     query_start_time = time.perf_counter()
-    league_filter = 'filter: {league:{eq: "%s"}}' % league
-    query = "query{listItems(limit:1000, %s){items{%s}nextToken}}" % (league_filter, " ".join(request_fields))
+    query_filter = 'filter: {dead:{eq: false},league:{eq: "%s"}}' % league
+    query = "query{listItems(limit:1000, %s){items{%s}nextToken}}" % (query_filter, " ".join(request_fields))
     result = []
     while True:
         items = requests.post(
@@ -81,7 +81,7 @@ def request_items(request_fields, league):
         ).json()
         next_token = items["data"]["listItems"]["nextToken"]
         result += items["data"]["listItems"]["items"]
-        query = 'query{listItems(limit:1000,nextToken: "%s", %s){items{%s}nextToken}}' % (next_token, league_filter," ".join(request_fields))
+        query = 'query{listItems(limit:1000,nextToken: "%s", %s){items{%s}nextToken}}' % (next_token, query_filter," ".join(request_fields))
         if not next_token:
             break
     query_stop_time = time.perf_counter()
