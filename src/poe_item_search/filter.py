@@ -138,7 +138,8 @@ def unique_filter(item, filter_value):
         if (item.get("flavourText")) or (item["name"] == "Tabula Rasa"):
             return True, item["name"]
     else:
-        if item["name"].lower() == filter_value.lower():
-            return True, item["name"]
+        if item["name"]:
+            if item["name"].lower() == filter_value.lower():
+                return True, item["name"]
     return False, None
 
