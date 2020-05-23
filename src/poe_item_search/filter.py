@@ -136,6 +136,8 @@ def unique_filter(item, filter_value):
     if filter_value == "any":
         # Tabula seems to be the odd ball without a flavour text
         if (item.get("flavourText")) or (item["name"] == "Tabula Rasa"):
+            if "Talisman" in item["typeLine"]:
+                return False, None
             return True, item["name"]
     else:
         if item["name"]:
