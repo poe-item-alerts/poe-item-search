@@ -136,7 +136,23 @@ def link_filter(item, filter_value):
 
 def class_filter(item, filter_value):
     logger.debug(f"Started class filter against {filter_value}")
-    if item["character_class"] == filter_value:
+    char_class = ""
+    if item["character_class"] in ["Duelist", "Slayer", "Gladiator", "Champion"]:
+        char_class = "duelist"
+    elif item["character_class"] in ["Shadow", "Assassin", "Saboteur", "Trickster"]:
+        char_class = "shadow"
+    elif item["character_class"] in ["Marauder", "Juggernaut", "Berserker", "Chieftain"]:
+        char_class = "marauder"
+    elif item["character_class"] in ["Witch", "Necromancer", "Elementalist", "Occultist"]:
+        char_class = "witch"
+    elif item["character_class"] in ["Ranger", "Deadeye", "Raider", "Pathfinder"]:
+        char_class = "ranger"
+    elif item["character_class"] in ["Templar", "Inquisitor", "Hierophant", "Guardian"]:
+        char_class = "templar"
+    elif item["character_class"] in ["Scion", "Ascendant"]:
+        char_class = "scion"
+
+    if char_class == filter_value.lower():
         return True
     return False
 
