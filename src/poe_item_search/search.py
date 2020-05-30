@@ -29,7 +29,8 @@ def search_items(item_filter):
         "mod": ["craftedMods", "explicitMods"],
         "type": ["typeLine", "inventoryId"],
         "links": ["links"],
-        "unique": ["name", "flavourText"]
+        "unique": ["name", "flavourText"],
+        "class": ["character_class"]
     }
     ssm = boto3.client("ssm")
     league = ssm.get_parameter(
