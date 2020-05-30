@@ -33,6 +33,9 @@ def filter_items(items, filter):
             elif filter_type == "unique":
                 filter_result, unique = unique_filter(item, filter_value)
                 result.append(filter_result)
+            elif filter_type == "class":
+                filter_result = class_filter(item, filter_value)
+                result.append(filter_result)
         if result:
             # all will make empty lists True
             if all(result):
@@ -130,6 +133,12 @@ def link_filter(item, filter_value):
     if item["links"] >= int(filter_value):
         return True, item["links"]
     return False, None
+
+def class_filter(item, filter_value):
+    logger.debug(f"Started class filter against {filter_value}")
+    if item["character_class"] == filter_value:
+        return True
+    return False
 
 def unique_filter(item, filter_value):
     logger.debug(f"Started unique filter against {filter_value}")
